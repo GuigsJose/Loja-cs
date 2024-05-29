@@ -94,6 +94,17 @@ app.MapGet("/clientes", async (LojaDbContext dbContext) =>
     });
 
 
+//buscar cliente por Id
+app.MapGet("/clientes/{id}", async (int id, LojaDbContext dbContext) =>
+    {
+        var cliente = await dbContext.Clientes.FindAsync(id);
+        if(cliente == null)
+        {
+            return Results.NotFound($"Produto with ID {id} not found.");
+        }
+        return Results.Ok(cliente);
+    }
+);
 
 
 
