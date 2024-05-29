@@ -17,7 +17,16 @@ builder.Services.AddDbContext<LojaDbContext>(options=>options.UseMySql(connectio
 
 var app = builder.Build();
 
-
+//Cria um produto
+/*
+    Estrutura do JSON:
+    {
+    "id": 2,
+    "nome": "Notebook Mac Air",
+    "preco": 8700,
+    "fornecedor": "Loja Apple Cwb"
+    }
+*/
 app.MapPost("/createproduto", async(LojaDbContext dbContext, Produto newProduto) =>
     {
         dbContext.Produtos.Add(newProduto);
@@ -26,11 +35,24 @@ app.MapPost("/createproduto", async(LojaDbContext dbContext, Produto newProduto)
     }
 );
 
+//Lista todos os produtos
 app.MapGet("/produtos", async (LojaDbContext dbContext) => 
     {
         var produtos = await dbContext.Produtos.ToListAsync();
         return Results.Ok(produtos);
     });
+
+//consulta por ID
+app.MapGet("/produtos/{id}", async (int id, LojaDbContext dbContext) =>
+    {
+        var produto = await dbContext.Produtos.FindAsync(id);
+        if(produto == null)
+        {
+            return Results.NotFound($"Produto with ID {id} not found");
+        }
+        return Results.Ok(produto);
+    }
+);
 
 app.Run();
 
