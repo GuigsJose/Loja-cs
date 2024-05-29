@@ -1,3 +1,11 @@
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.csproj.AssemblyReference.cache
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.AssemblyInfoInputs.cache
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.AssemblyInfo.cs
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.csproj.CoreCompileInputs.cache
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.sourcelink.json
 C:\Users\guize\Desktop\Loja-cs\Loja\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\guize\Desktop\Loja-cs\Loja\bin\Debug\net8.0\appsettings.json
 C:\Users\guize\Desktop\Loja-cs\Loja\bin\Debug\net8.0\Loja.exe
@@ -82,14 +90,6 @@ C:\Users\guize\Desktop\Loja-cs\Loja\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.W
 C:\Users\guize\Desktop\Loja-cs\Loja\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\guize\Desktop\Loja-cs\Loja\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\guize\Desktop\Loja-cs\Loja\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.csproj.AssemblyReference.cache
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.AssemblyInfoInputs.cache
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.AssemblyInfo.cs
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.csproj.CoreCompileInputs.cache
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\Loja.sourcelink.json
 C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\guize\Desktop\Loja-cs\Loja\obj\Debug\net8.0\staticwebassets\msbuild.Loja.Microsoft.AspNetCore.StaticWebAssets.props

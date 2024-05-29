@@ -129,6 +129,60 @@ app.MapPut("/clientes/{id}", async (int id, LojaDbContext dbContext,Cliente upda
     }
 );
 
+//criação de cliente
+app.MapPost("/createfornecedor", async (LojaDbContext dbContext, Fornecedor newFornecedor)=>
+    {
+        dbContext.Fornecedores.Add(newFornecedor);
+        await dbContext.SaveChangesAsync();
+        return Results.Created($"/createcliente/{newFornecedor.Id}", newFornecedor);
+    }
+);
+
+//listar clientes 
+app.MapGet("/fornecedores", async (LojaDbContext dbContext) => 
+    {
+        var fornecedor = await dbContext.Fornecedores.ToListAsync();
+        return Results.Ok(fornecedor);
+    });
+
+
+//buscar cliente por Id
+app.MapGet("/fornecedores/{id}", async (int id, LojaDbContext dbContext) =>
+    {
+        var fornecedor = await dbContext.Fornecedores.FindAsync(id);
+        if(fornecedor == null)
+        {
+            return Results.NotFound($"Produto with ID {id} not found.");
+        }
+        return Results.Ok(fornecedor);
+    }
+);
+
+//endpoint para Atualizar clientes
+app.MapPut("/fornecedores/{id}", async (int id, LojaDbContext dbContext,Fornecedor updateFornecedor) =>
+    {
+        //Verifica se o produto existe na base, com base no ID
+        //Se o produto existir na base, sera retornado para dentro do objeto existingProduto
+        var existingFornecedor = await dbContext.Fornecedores.FindAsync(id);
+        if(existingFornecedor == null)
+        {
+            return Results.NotFound($"Cliente with ID {id} not found.");
+        }
+        //atualiza os dados do existingProduto
+        existingFornecedor.Nome = updateFornecedor.Nome;
+        existingFornecedor.Endereco = updateFornecedor.Endereco;
+        existingFornecedor.Email = updateFornecedor.Email;
+        existingFornecedor.Telefone = updateFornecedor.Telefone;
+
+        //salva no banco
+        await dbContext.SaveChangesAsync();
+
+        //retorna para o cliente que invocou o endpoint
+        return Results.Ok(existingFornecedor);
+    }
+);
+
+
 
 
 app.Run();
