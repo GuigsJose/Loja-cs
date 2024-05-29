@@ -86,6 +86,14 @@ app.MapPost("/createcliente", async (LojaDbContext dbContext, Cliente newCliente
     }
 );
 
+//listar clientes 
+app.MapGet("/clientes", async (LojaDbContext dbContext) => 
+    {
+        var clientes = await dbContext.Clientes.ToListAsync();
+        return Results.Ok(clientes);
+    });
+
+
 
 
 
