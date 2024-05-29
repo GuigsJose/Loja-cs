@@ -77,7 +77,14 @@ app.MapPut("/produtos/{id}", async (int id, LojaDbContext dbContext,Produto upda
     }
 );
 
-
+//criação de cliente
+app.MapPost("/createcliente", async (LojaDbContext dbContext, Cliente newCliente)=>
+    {
+        dbContext.Clientes.Add(newCliente);
+        await dbContext.SaveChangesAsync();
+        return Results.Created($"/createcliente/{newCliente.Id}", newCliente);
+    }
+);
 
 
 
