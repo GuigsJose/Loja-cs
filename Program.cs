@@ -26,6 +26,12 @@ app.MapPost("/createproduto", async(LojaDbContext dbContext, Produto newProduto)
     }
 );
 
+app.MapGet("/produtos", async (LojaDbContext dbContext) => 
+    {
+        var produtos = await dbContext.Produtos.ToListAsync();
+        return Results.Ok(produtos);
+    });
+
 app.Run();
 
 
