@@ -40,7 +40,7 @@ if(app.Environment.IsDevelopment())
     "fornecedor": "Loja Apple Cwb"
     }
 */
-
+//produtos
 app.MapGet("/produtos",async(ProductService productService)=>
 {
     var produtos = await productService.GetAllProductsAsync();
@@ -60,7 +60,7 @@ app.MapGet("/produtos/{id}", async (int id,ProductService productService) =>
     return Results.Ok(produto);
 });
 
-app.MapPost("produtos",async (Produto produto, ProductService productService)=>
+app.MapPost("/produtos",async (Produto produto, ProductService productService)=>
 {
     await productService.AddProductAsync(produto);
     return Results.Created($"/produtos/{produto.Id}", produto);
@@ -81,6 +81,46 @@ app.MapDelete("/produtos/{id}", async (int id, ProductService productService)=>
     await productService.DeleteProdctAsync(id);
     return Results.Ok();
 });
+
+//clientes
+app.MapGet("/clientes", async(ClientService clientService) =>
+{
+    var clientes = await clientService.GetAllClientsAsync();
+    return Results.Ok(clientes);
+});
+
+app.MapGet("/produtos/{id}", async (int id,ClientService clientService)=>
+{
+    var cliente = await clientService.GetClientByIdAsync(id);
+    if(cliente == null)
+    {
+        return Results.NotFound($"Product with ID {id} not found.");
+    }
+    return Results.Ok(cliente);
+});
+
+app.MapPost("/clientes{id}", async (Cliente cliente, ClientService clientService)=>
+{
+    await clientService.AddClientAsync(cliente);
+    return Results.Created($"/clientes/{cliente.Id}", cliente);
+});
+
+app.MapPut("/clientes/{id}",async (int id, Cliente cliente,ClientService clientService)=>
+{
+    if(id!=cliente.Id)
+    {
+        return Results.BadRequest("Product Id mismatch.");
+    }
+    await clientService.UpdateClientAsync(cliente);
+    return Results.Ok();
+});
+
+app.MapDelete("/clientes/{id}",async (int id, ClientService clientService)=>
+{
+    await clientService.DeleteClientAsync(id);
+    return Results.Ok();
+});
+
 
 //old version
 // app.MapPost("/createproduto", async(LojaDbContext dbContext, Produto newProduto) =>
@@ -147,87 +187,88 @@ app.MapDelete("/produtos/{id}", async (int id, ProductService productService)=>
 //     return Results.NoContent();
 // });
 
+//old version
 //criação de cliente
-app.MapPost("/createcliente", async (LojaDbContext dbContext, Cliente newCliente)=>
-    {
-        dbContext.Clientes.Add(newCliente);
-        await dbContext.SaveChangesAsync();
-        return Results.Created($"/createcliente/{newCliente.Id}", newCliente);
-    }
-);
+// app.MapPost("/createcliente", async (LojaDbContext dbContext, Cliente newCliente)=>
+//     {
+//         dbContext.Clientes.Add(newCliente);
+//         await dbContext.SaveChangesAsync();
+//         return Results.Created($"/createcliente/{newCliente.Id}", newCliente);
+//     }
+// );
 
-//listar clientes 
-app.MapGet("/clientes", async (LojaDbContext dbContext) => 
-    {
-        var clientes = await dbContext.Clientes.ToListAsync();
-        return Results.Ok(clientes);
-    });
+// //listar clientes 
+// app.MapGet("/clientes", async (LojaDbContext dbContext) => 
+//     {
+//         var clientes = await dbContext.Clientes.ToListAsync();
+//         return Results.Ok(clientes);
+//     });
 
 
-//buscar cliente por Id
-app.MapGet("/clientes/{id}", async (int id, LojaDbContext dbContext) =>
-    {
-        var cliente = await dbContext.Clientes.FindAsync(id);
-        if(cliente == null)
-        {
-            return Results.NotFound($"Produto with ID {id} not found.");
-        }
-        return Results.Ok(cliente);
-    }
-);
+// //buscar cliente por Id
+// app.MapGet("/clientes/{id}", async (int id, LojaDbContext dbContext) =>
+//     {
+//         var cliente = await dbContext.Clientes.FindAsync(id);
+//         if(cliente == null)
+//         {
+//             return Results.NotFound($"Produto with ID {id} not found.");
+//         }
+//         return Results.Ok(cliente);
+//     }
+// );
 
-//endpoint para Atualizar clientes
-app.MapPut("/clientes/{id}", async (int id, LojaDbContext dbContext,Cliente updateCliente) =>
-    {
-        //Verifica se o cliente existe na base, com base no ID
-        //Se o cliente existir na base, sera retornado para dentro do objeto existingProduto
-        var existingCliente = await dbContext.Clientes.FindAsync(id);
-        if(existingCliente == null)
-        {
-            return Results.NotFound($"Cliente with ID {id} not found.");
-        }
-        //atualiza os dados do existingCliente
-        existingCliente.Nome = updateCliente.Nome;
-        existingCliente.Cpf = updateCliente.Cpf;
-        existingCliente.Email = updateCliente.Email;
+// //endpoint para Atualizar clientes
+// app.MapPut("/clientes/{id}", async (int id, LojaDbContext dbContext,Cliente updateCliente) =>
+//     {
+//         //Verifica se o cliente existe na base, com base no ID
+//         //Se o cliente existir na base, sera retornado para dentro do objeto existingProduto
+//         var existingCliente = await dbContext.Clientes.FindAsync(id);
+//         if(existingCliente == null)
+//         {
+//             return Results.NotFound($"Cliente with ID {id} not found.");
+//         }
+//         //atualiza os dados do existingCliente
+//         existingCliente.Nome = updateCliente.Nome;
+//         existingCliente.Cpf = updateCliente.Cpf;
+//         existingCliente.Email = updateCliente.Email;
 
-        //salva no banco
-        await dbContext.SaveChangesAsync();
+//         //salva no banco
+//         await dbContext.SaveChangesAsync();
 
-        //retorna para o cliente que invocou o endpoint
-        return Results.Ok(existingCliente);
-    }
-);
+//         //retorna para o cliente que invocou o endpoint
+//         return Results.Ok(existingCliente);
+//     }
+// );
 
-// Deletar cliente
-app.MapDelete("/clientes/{id}", async (int id, LojaDbContext dbContext)=>
-{
-    var cliente = await dbContext.Clientes.FindAsync(id);
-    if(cliente == null)
-    {
-        return Results.NotFound();
-    }
+// // Deletar cliente
+// app.MapDelete("/clientes/{id}", async (int id, LojaDbContext dbContext)=>
+// {
+//     var cliente = await dbContext.Clientes.FindAsync(id);
+//     if(cliente == null)
+//     {
+//         return Results.NotFound();
+//     }
 
-    dbContext.Clientes.Remove(cliente);
+//     dbContext.Clientes.Remove(cliente);
 
-    return Results.NoContent();
-});
+//     return Results.NoContent();
+// });
 
-//criação de fornecedor
-app.MapPost("/createfornecedor", async (LojaDbContext dbContext, Fornecedor newFornecedor)=>
-    {
-        dbContext.Fornecedores.Add(newFornecedor);
-        await dbContext.SaveChangesAsync();
-        return Results.Created($"/createcliente/{newFornecedor.Id}", newFornecedor);
-    }
-);
+// //criação de fornecedor
+// app.MapPost("/createfornecedor", async (LojaDbContext dbContext, Fornecedor newFornecedor)=>
+//     {
+//         dbContext.Fornecedores.Add(newFornecedor);
+//         await dbContext.SaveChangesAsync();
+//         return Results.Created($"/createcliente/{newFornecedor.Id}", newFornecedor);
+//     }
+// );
 
-//listar clientes 
-app.MapGet("/fornecedores", async (LojaDbContext dbContext) => 
-    {
-        var fornecedor = await dbContext.Fornecedores.ToListAsync();
-        return Results.Ok(fornecedor);
-    });
+// //listar clientes 
+// app.MapGet("/fornecedores", async (LojaDbContext dbContext) => 
+//     {
+//         var fornecedor = await dbContext.Fornecedores.ToListAsync();
+//         return Results.Ok(fornecedor);
+//     });
 
 
 //buscar fornecedor por Id
