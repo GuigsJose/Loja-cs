@@ -99,7 +99,7 @@ app.MapGet("/produtos/{id}", async (int id,ClientService clientService)=>
     return Results.Ok(cliente);
 });
 
-app.MapPost("/clientes{id}", async (Cliente cliente, ClientService clientService)=>
+app.MapPost("/clientes/", async (Cliente cliente, ClientService clientService)=>
 {
     await clientService.AddClientAsync(cliente);
     return Results.Created($"/clientes/{cliente.Id}", cliente);
@@ -120,6 +120,48 @@ app.MapDelete("/clientes/{id}",async (int id, ClientService clientService)=>
     await clientService.DeleteClientAsync(id);
     return Results.Ok();
 });
+
+//fornecedores
+app.MapGet("/fornecedores",async(SupplierService supplierService)=>
+{
+    var fornecedores = await supplierService.GetAllSuppliersAsync();
+    return Results.Ok(fornecedores);
+});
+
+app.MapGet("/fornecedores/{id}", async(int id,SupplierService supplierService) =>
+{
+    var fornecedor = await supplierService.GetSupplierByIdAsync(id);
+    if(fornecedor == null)
+    {
+        return Results.NotFound($"Supplier with ID {id} not found.");
+    }
+
+    return Results.Ok(fornecedor);
+
+});
+
+app.MapPost("/fornecedores",async (Fornecedor fornecedor, SupplierService supplierService)=>
+{
+    await supplierService.AddSupplierAsync(fornecedor);
+    return Results.Created($"/produtos/{fornecedor.Id}", fornecedor);
+});
+
+app.MapPut("/fornecedores/{id}",async (int id, Fornecedor fornecedor, SupplierService supplierService)=>
+{
+    if(id != fornecedor.Id)
+    {
+        return Results.BadRequest("Product ID mismatch.");
+    }
+    await supplierService.UpdateSupplierAsync(fornecedor);
+    return Results.Ok();
+});
+
+app.MapDelete("/fornecedores/{id}",async (int id, SupplierService supplierService)=>
+{
+    await supplierService.DeleteSupplierAsync(id);
+    return Results.Ok();
+});
+
 
 
 //old version
@@ -271,55 +313,56 @@ app.MapDelete("/clientes/{id}",async (int id, ClientService clientService)=>
 //     });
 
 
-//buscar fornecedor por Id
-app.MapGet("/fornecedores/{id}", async (int id, LojaDbContext dbContext) =>
-    {
-        var fornecedor = await dbContext.Fornecedores.FindAsync(id);
-        if(fornecedor == null)
-        {
-            return Results.NotFound($"Produto with ID {id} not found.");
-        }
-        return Results.Ok(fornecedor);
-    }
-);
+//old version
+// //buscar fornecedor por Id
+// app.MapGet("/fornecedores/{id}", async (int id, LojaDbContext dbContext) =>
+//     {
+//         var fornecedor = await dbContext.Fornecedores.FindAsync(id);
+//         if(fornecedor == null)
+//         {
+//             return Results.NotFound($"Produto with ID {id} not found.");
+//         }
+//         return Results.Ok(fornecedor);
+//     }
+// );
 
-//endpoint para Atualizar fornecedor
-app.MapPut("/fornecedores/{id}", async (int id, LojaDbContext dbContext,Fornecedor updateFornecedor) =>
-    {
-        //Verifica se o fornecedor existe na base, com base no ID
-        //Se o fornecedor existir na base, sera retornado para dentro do objeto existingProduto
-        var existingFornecedor = await dbContext.Fornecedores.FindAsync(id);
-        if(existingFornecedor == null)
-        {
-            return Results.NotFound($"Cliente with ID {id} not found.");
-        }
-        //atualiza os dados do existingFornecedor
-        existingFornecedor.Nome = updateFornecedor.Nome;
-        existingFornecedor.Endereco = updateFornecedor.Endereco;
-        existingFornecedor.Email = updateFornecedor.Email;
-        existingFornecedor.Telefone = updateFornecedor.Telefone;
+// //endpoint para Atualizar fornecedor
+// app.MapPut("/fornecedores/{id}", async (int id, LojaDbContext dbContext,Fornecedor updateFornecedor) =>
+//     {
+//         //Verifica se o fornecedor existe na base, com base no ID
+//         //Se o fornecedor existir na base, sera retornado para dentro do objeto existingProduto
+//         var existingFornecedor = await dbContext.Fornecedores.FindAsync(id);
+//         if(existingFornecedor == null)
+//         {
+//             return Results.NotFound($"Cliente with ID {id} not found.");
+//         }
+//         //atualiza os dados do existingFornecedor
+//         existingFornecedor.Nome = updateFornecedor.Nome;
+//         existingFornecedor.Endereco = updateFornecedor.Endereco;
+//         existingFornecedor.Email = updateFornecedor.Email;
+//         existingFornecedor.Telefone = updateFornecedor.Telefone;
 
-        //salva no banco
-        await dbContext.SaveChangesAsync();
+//         //salva no banco
+//         await dbContext.SaveChangesAsync();
 
-        //retorna para o fornecedor que invocou o endpoint
-        return Results.Ok(existingFornecedor);
-    }
-);
+//         //retorna para o fornecedor que invocou o endpoint
+//         return Results.Ok(existingFornecedor);
+//     }
+// );
 
-// Deletar fornecedor
-app.MapDelete("/fornecedores/{id}", async (int id, LojaDbContext dbContext)=>
-{
-    var fornecedor = await dbContext.Fornecedores.FindAsync(id);
-    if(fornecedor == null)
-    {
-        return Results.NotFound();
-    }
+// // Deletar fornecedor
+// app.MapDelete("/fornecedores/{id}", async (int id, LojaDbContext dbContext)=>
+// {
+//     var fornecedor = await dbContext.Fornecedores.FindAsync(id);
+//     if(fornecedor == null)
+//     {
+//         return Results.NotFound();
+//     }
 
-    dbContext.Fornecedores.Remove(fornecedor);
+//     dbContext.Fornecedores.Remove(fornecedor);
 
-    return Results.NoContent();
-});
+//     return Results.NoContent();
+// });
 
 
 
