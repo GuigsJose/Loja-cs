@@ -30,6 +30,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddAuthorization(); // Adicione esta linha
+
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<SupplierService>();
