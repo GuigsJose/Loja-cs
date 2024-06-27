@@ -55,6 +55,27 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+/*
+IMPORTANTE !!!!!!!!!!!!!!!!!!
+PRIMEIRO FAÇA O POST DO ENDPOINT /login COM A SENHA 1029
+PEGUE O TOKEN GERADO NA RESPOSTA, E QUANDO FOR TESTAR OS ENDPOINTS, COLOCAR NA AUTORIZAÇÃO
+O TOKEN
+
+*/
+
+// ANTES DE TODOS OS ENDPOINTS HA O EXEMPLO DE COMO DEVE SER INSERIDO O JSON
+//[BIZU] COMEÇA PELO FORNECEDOR OU CLIENTE RS
+
+
+/*
+
+{
+    "username": "usuário",
+    "email": "usuario@example.com",
+    "senha": "1029"
+}
+
+*/
 app.MapPost("/login", async (HttpContext context, Autorizador autorizador) =>
 {
     using var reader = new StreamReader(context.Request.Body);
@@ -72,6 +93,16 @@ app.MapPost("/login", async (HttpContext context, Autorizador autorizador) =>
     await context.Response.WriteAsync(token);
 });
 
+/*
+
+{
+    "nome": "Produto ABC",
+    "preco": 19.99,
+    "fornecedorId": 1
+}
+
+
+*/
 app.MapGet("/produtos", async (ProductService productService) =>
 {
     var produtos = await productService.GetAllProductsAsync();
@@ -109,6 +140,17 @@ app.MapDelete("/produtos/{id}", async (int id, ProductService productService) =>
     await productService.DeleteProdctAsync(id);
     return Results.Ok();
 }).RequireAuthorization();
+
+
+/*
+{
+    "nome": "João Silva",
+    "cpf": "123.456.789-00",
+    "email": "joao.silva@example.com"
+}
+*/
+
+
 
 // Clientes
 app.MapGet("/clientes", async (ClientService clientService) =>
@@ -149,6 +191,19 @@ app.MapDelete("/clientes/{id}", async (int id, ClientService clientService) =>
     return Results.Ok();
 }).RequireAuthorization();
 
+
+/*
+
+{
+    "nome": "Fornecedor XYZ",
+    "endereco": "Rua Exemplo, 123",
+    "email": "contato@fornecedorxyz.com",
+    "telefone": "(11) 1234-5678"
+}
+
+
+*/
+
 // Fornecedores
 app.MapGet("/fornecedores", async (SupplierService supplierService) =>
 {
@@ -188,6 +243,21 @@ app.MapDelete("/fornecedores/{id}", async (int id, SupplierService supplierServi
     return Results.Ok();
 }).RequireAuthorization();
 
+
+
+/*
+
+{
+    "dataVenda": "2023-06-27T00:00:00",
+    "numeroNotaFiscal": "123456",
+    "clienteId": 1,
+    "produtoId": 1,
+    "quantidadeVendida": 2,
+    "precoUnitario": 19.99
+}
+
+
+*/
 // Vendas
 app.MapPost("/vendas", async (Venda venda, VendaService vendaService) =>
 {
